@@ -19,13 +19,24 @@ WayFinder is an AI-powered spatial intelligence and location assistance web appl
 
 ## How It Works
 
-```
-[ Device Camera ] ──> Capture Frame to Canvas ──┐
-                                                 │
-[ Device GPS ] ──────> Reverse Geocode (Nominatim API) ──> POST /api/analyze ──> [ Gemini API: gemini-3.5-flash ]
-                                                                                         │
-                                                                                         ▼
-[ Embedded Google Maps & Routing ] <──────────── Render Intelligence Report & Live Map ──┘
+```mermaid
+flowchart LR
+    subgraph Capture ["1. Data Capture"]
+        A["📷 Live Camera<br/>(getUserMedia)"] --> B["🖼️ Canvas Frame<br/>(JPEG Payload)"]
+        C["📍 GPS Coordinates<br/>(Geolocation API)"]
+    end
+
+    subgraph Processing ["2. Geocoding & AI Analysis"]
+        C --> D["🗺️ Nominatim API<br/>(Reverse Geocoding)"]
+        B --> E["⚙️ Backend Route<br/>(/api/analyze)"]
+        D -->|Street Address| E
+        E --> F["✨ Gemini 3.5 Flash<br/>(Multimodal AI)"]
+    end
+
+    subgraph Output ["3. Output & Navigation"]
+        F --> G["📝 Intelligence Report<br/>(Environment + POIs)"]
+        G --> H["🧭 Embedded Google Maps<br/>(Live Routing)"]
+    end
 ```
 
 1. **Capture**: The user launches the live camera feed (or uploads an image). A frame is captured to a canvas and converted to an image payload.
