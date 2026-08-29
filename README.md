@@ -20,23 +20,47 @@ WayFinder is an AI-powered spatial intelligence and location assistance web appl
 ## How It Works
 
 ```mermaid
-flowchart LR
-    subgraph Capture ["1. Data Capture"]
-        A["📷 Live Camera<br/>(getUserMedia)"] --> B["🖼️ Canvas Frame<br/>(JPEG Payload)"]
-        C["📍 GPS Coordinates<br/>(Geolocation API)"]
+flowchart TD
+    %% Styling Configuration
+    classDef clientBox fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#f8fafc,rx:10px,ry:10px;
+    classDef serverBox fill:#0f172a,stroke:#818cf8,stroke-width:2px,color:#f8fafc,rx:10px,ry:10px;
+    classDef aiBox fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#ecfdf5,rx:10px,ry:10px;
+    classDef uiBox fill:#1e1b4b,stroke:#a78bfa,stroke-width:2px,color:#f5f3ff,rx:10px,ry:10px;
+    classDef processBox fill:#1e293b,stroke:#64748b,stroke-width:1.5px,color:#f1f5f9,rx:8px,ry:8px;
+
+    subgraph CLIENT [" 🖥️ CLIENT TIER (Browser & Device Sensors) "]
+        direction TB
+        CAM["📷 <b>Device Camera Stream</b><br/>navigator.mediaDevices.getUserMedia (Rear/Environment)"]:::processBox
+        CANVAS["🖼️ <b>HTML5 Canvas Buffer</b><br/>Extracts active frame to JPEG Blob / File payload"]:::clientBox
+        GPS["📍 <b>Geolocation Telemetry</b><br/>navigator.geolocation.getCurrentPosition (or Manual Override)"]:::processBox
+        
+        CAM -->|Capture Action| CANVAS
     end
 
-    subgraph Processing ["2. Geocoding & AI Analysis"]
-        C --> D["🗺️ Nominatim API<br/>(Reverse Geocoding)"]
-        B --> E["⚙️ Backend Route<br/>(/api/analyze)"]
-        D -->|Street Address| E
-        E --> F["✨ Gemini 3.5 Flash<br/>(Multimodal AI)"]
+    subgraph BACKEND [" ⚙️ BACKEND TIER (Next.js API Route: /api/analyze) "]
+        direction TB
+        GEO["🗺️ <b>Nominatim OpenStreetMap Service</b><br/>Reverse-geocodes Latitude & Longitude to physical address"]:::serverBox
+        PROMPT["🧩 <b>Prompt & Context Assembler</b><br/>Builds strict spatial verification prompt + base64 image part"]:::processBox
+        GEMINI["✨ <b>Google Gemini 3.5 Flash</b><br/>Multimodal Vision Model: Analyzes environment & names POIs"]:::aiBox
+        
+        GEO -->|Ground-Truth Address| PROMPT
+        PROMPT -->|Multimodal Payload| GEMINI
     end
 
-    subgraph Output ["3. Output & Navigation"]
-        F --> G["📝 Intelligence Report<br/>(Environment + POIs)"]
-        G --> H["🧭 Embedded Google Maps<br/>(Live Routing)"]
+    subgraph PRESENTATION [" 🧭 PRESENTATION & COMMAND CENTER "]
+        direction TB
+        REPORT["📋 <b>Spatial Intelligence Report</b><br/>• Environment Analysis<br/>• Verified Street Address<br/>• 2 Nearby Tourist Spots / POIs"]:::aiBox
+        MAPS["🗺️ <b>Embedded Google Maps Engine</b><br/>• Real-time Spatial Pinning<br/>• Live Turn-by-Turn Routing (Drive / Walk / Transit)"]:::uiBox
+        STORAGE["💾 <b>Client Telemetry Database</b><br/>localStorage scan cache, modal reader & CSV export"]:::processBox
+
+        GEMINI -->|ai_text payload| REPORT
+        REPORT --> MAPS
+        REPORT --> STORAGE
     end
+
+    CANVAS ==>|POST multipart/form-data: campus_image| BACKEND
+    GPS ==>|POST multipart/form-data: lat / lng| GEO
+    BACKEND ==>|HTTP 200 JSON: ai_text| PRESENTATION
 ```
 
 1. **Capture**: The user launches the live camera feed (or uploads an image). A frame is captured to a canvas and converted to an image payload.
