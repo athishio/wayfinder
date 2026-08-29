@@ -1,4 +1,4 @@
-# WayFinder AI
+# WayFinder
 
 WayFinder is an AI-powered spatial intelligence and location assistance web application. It combines real-time camera capture, GPS positioning, reverse geocoding, and multimodal AI analysis to identify immediate physical surroundings, confirm real-world addresses, discover nearby points of interest, and provide interactive navigation routing.
 
