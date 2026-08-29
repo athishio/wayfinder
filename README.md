@@ -2,12 +2,20 @@
 
 WayFinder is an AI-powered spatial intelligence and location assistance web application. It combines real-time camera capture, GPS positioning, reverse geocoding, and multimodal AI analysis to identify immediate physical surroundings, confirm real-world addresses, discover nearby points of interest, and provide interactive navigation routing.
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Visit_App-000000?style=flat&logo=vercel&logoColor=white)](https://wayfinder.vercel.app)
 [![Next.js](https://img.shields.io/badge/Next.js-16.2-black?style=flat&logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.2-61DAFB?style=flat&logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=flat&logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4-38B2AC?style=flat&logo=tailwind-css)](https://tailwindcss.com/)
 [![Google Gemini](https://img.shields.io/badge/Google_Gemini-3.5_Flash-8E75B2?style=flat&logo=google)](https://ai.google.dev/)
 [![OpenStreetMap](https://img.shields.io/badge/OpenStreetMap-Nominatim-7EBC6F?style=flat&logo=openstreetmap)](https://nominatim.openstreetmap.org/)
+
+---
+
+## 🚀 Live Demo
+
+Experience the live deployment of WayFinder:
+👉 **[Launch WayFinder Live Demo](https://wayfinder.vercel.app)**
 
 ---
 
